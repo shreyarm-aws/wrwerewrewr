@@ -1,4 +1,3 @@
-//application team index file
 import { ArnPrincipal } from 'aws-cdk-lib/aws-iam';
 import { ApplicationTeam } from '@aws-quickstart/eks-blueprints';
 

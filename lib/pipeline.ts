@@ -1,7 +1,10 @@
 // lib/pipeline.ts
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 import * as blueprints from '@aws-quickstart/eks-blueprints';
+import { Construct } from 'constructs';
+
+import { TeamPlatform, TeamApplication } from '../teams'; // HERE WE IMPORT TEAMS
+
 
 export default class PipelineConstruct extends Construct {
   constructor(scope: Construct, id: string, props?: cdk.StackProps){
@@ -14,7 +17,7 @@ export default class PipelineConstruct extends Construct {
     .account(account)
     .region(region)
     .addOns()
-    .teams();
+    .teams(new TeamPlatform(account), new TeamApplication('burnham',account));
   
     blueprints.CodePipelineStack.builder()
       .name("eks-blueprints-workshop-pipeline")
@@ -24,7 +27,6 @@ export default class PipelineConstruct extends Construct {
           credentialsSecretName: 'githubs-token',
           targetRevision: 'main'
       })
-      // WE ADD THE STAGES IN WAVE FROM THE PREVIOUS CODE
       .wave({
         id: "envs",
         stages: [

@@ -5,14 +5,13 @@ import { Construct } from 'constructs';
 
 import { TeamPlatform, TeamApplication } from '../teams'; // HERE WE IMPORT TEAMS
 
-
 export default class PipelineConstruct extends Construct {
   constructor(scope: Construct, id: string, props?: cdk.StackProps){
     super(scope,id)
 
     const account = props?.env?.account!;
     const region = props?.env?.region!;
-
+    
     const blueprint = blueprints.EksBlueprint.builder()
     .account(account)
     .region(region)

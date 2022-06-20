@@ -20,10 +20,10 @@ export default class PipelineConstruct extends Construct {
   
     blueprints.CodePipelineStack.builder()
       .name("eks-blueprints-workshop-pipeline")
-      .owner("shreyarm-aws")
+      .owner("your-github-username")
       .repository({
-          repoUrl: 'my-eks-blueprints',
-          credentialsSecretName: 'githubs-token',
+          repoUrl: 'your-repo-name',
+          credentialsSecretName: 'github-token',
           targetRevision: 'main'
       })
       .wave({

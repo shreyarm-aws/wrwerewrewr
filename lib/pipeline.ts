@@ -1,29 +1,29 @@
 // lib/pipeline.ts
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 import * as blueprints from '@aws-quickstart/eks-blueprints';
+import { Construct } from 'constructs';
 
-import { TeamPlatform, TeamApplication } from '../teams'; 
+import { TeamPlatform, TeamApplication } from '../teams'; // HERE WE IMPORT TEAMS
 
-export default class PipelineConstruct {
+export default class PipelineConstruct extends Construct {
   constructor(scope: Construct, id: string, props?: cdk.StackProps){
     super(scope,id)
-    
+
     const account = props?.env?.account!;
     const region = props?.env?.region!;
-
+    
     const blueprint = blueprints.EksBlueprint.builder()
     .account(account)
     .region(region)
-    .addOns(new blueprints.ClusterAutoScalerAddOn) // Cluster Autoscaler addon goes here
-    .teams(new TeamPlatform(account), new TeamApplication('burnham'));
+    .addOns(new blueprints.ClusterAutoScalerAddOn)
+    .teams(new TeamPlatform(account), new TeamApplication('burnham',account));
   
     blueprints.CodePipelineStack.builder()
       .name("eks-blueprints-workshop-pipeline")
       .owner("your-github-username")
       .repository({
           repoUrl: 'your-repo-name',
-          credentialsSecretName: 'github-token',
+          credentialsSecretName: 'githubs-token',
           targetRevision: 'main'
       })
       .wave({
